@@ -30,13 +30,16 @@ Things you may want to cover:
   ```
 
 * How to run the test suite
+  ```shell
+    bundle exec rspec
+  ```  
 
 * Services (job queues, cache servers, search engines, etc.)
   ```shell
     bundle exec sidekiq
   ```
 
-* Example json for adding new match:
+* Example JSON for adding new match:
 
 ```ruby
 { "data": {
@@ -78,6 +81,5 @@ Things you may want to cover:
 }
 ```
 
-* Example url for getting a match information:
-
-```http://127.0.0.1:3000/statistics?team_id=2&top=3&page=1&per_page=2&from=2023-01-01&to=2024-12-31&role=Defender```
+* Example url for getting statistics:
+ http://127.0.0.1:3000/statistics?team_id=2&top=3&page=1&per_page=2&from=2023-01-01&to=2024-12-31&role=Defender
