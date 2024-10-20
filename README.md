@@ -15,7 +15,10 @@ Things you may want to cover:
   
   - create .env file and add the next lines
     ```yaml
+      RAILS_MASTER_KEY=2234234234234
+    
       REDIS_URL="redis://localhost:6379/1"
+    
       DB_HOST=localhost
       DB_USER=admin
       DB_PASSWORD=admin

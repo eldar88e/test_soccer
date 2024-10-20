@@ -1,9 +1,17 @@
 class StatisticsController < ApplicationController
   def index
-    @team = find_team
+    cache_key = generate_cache_key(params)
+    response  = Rails.cache.fetch(cache_key, expires_in: 10.minutes)
+    return render json: response, status: :ok if response
+
+    @team = Rails.cache.fetch("team_#{params[:team_id]}", expires_in: 10.minutes) do
+      find_team
+    end
     return render json: { error: "Team not found" }, status: :not_found if @team.nil?
 
-    @statistics = fetch_statistics
+    @statistics = Rails.cache.fetch("team_#{@team.id}_statistics", expires_in: 10.minutes) do
+      fetch_statistics
+    end
     return render json: { team: @team.name, players: [] }, status: :ok if @statistics.blank?
 
     if params[:role].present?
@@ -14,10 +22,18 @@ class StatisticsController < ApplicationController
     filter_by_date
     filter_by_players
     paginate_statistics
-    render json: { team: @team.name, players: @page }.merge(@pagination_info), status: :ok
+    response = Rails.cache.fetch(cache_key, expires_in: 10.minutes) do
+      { team: @team.name, players: @page }.merge(@pagination_info)
+    end
+    render json: response, status: :ok
   end
 
   private
+
+  def generate_cache_key(params)
+    key_parts = %W[team_#{params[:team_id]} team_#{params[:team_name]} role_#{params[:role]} from_#{params[:from]} to_#{params[:to]} top_#{params[:top]} page_#{params[:page]}]
+    key_parts.join("_")
+  end
 
   def paginate_statistics
     page     = (params[:page] || 1).to_i
