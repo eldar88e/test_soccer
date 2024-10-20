@@ -82,4 +82,5 @@ Things you may want to cover:
 ```
 
 * Example url for getting statistics:
- http://127.0.0.1:3000/statistics?team_id=2&top=3&page=1&per_page=2&from=2023-01-01&to=2024-12-31&role=Defender
+
+  http://127.0.0.1:3000/statistics?team_id=2&top=3&page=1&per_page=2&from=2023-01-01&to=2024-12-31&role=Defender
