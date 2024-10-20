@@ -31,7 +31,7 @@ class StatisticsController < ApplicationController
   private
 
   def generate_cache_key(params)
-    key_parts = %W[team_#{params[:team_id]} team_#{params[:team_name]} role_#{params[:role]} from_#{params[:from]} to_#{params[:to]} top_#{params[:top]} page_#{params[:page]}]
+    key_parts = %W[team_#{params[:team_id]} team_name_#{params[:team_name]} role_#{params[:role]} from_#{params[:from]} to_#{params[:to]} top_#{params[:top]} page_#{params[:page]} per_page_#{params[:per_page]}]
     key_parts.join("_")
   end
 

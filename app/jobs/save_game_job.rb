@@ -17,5 +17,12 @@ class SaveGameJob < ApplicationJob
       cur_stat = stat.except('name', 'role')
       Statistic.create(player: player, match: current_match, **cur_stat)
     end
+    clear_team_cache(team.id)
+  end
+
+  def clear_team_cache(team_id)
+    redis = Redis.new
+    keys = redis.keys("team_#{team_id}_*")
+    keys.each { |key| redis.del(key) }
   end
 end
